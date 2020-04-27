@@ -5,7 +5,7 @@ import com.typesafe.config.Config
 import scala.util.Try
 
 trait ConfigNamespace {
-  val namespace: String
+  def namespace: String
 }
 
 abstract class ConfigBuilder extends ConfigNamespace {
@@ -14,7 +14,7 @@ abstract class ConfigBuilder extends ConfigNamespace {
 
 abstract class DatabaseConfigBuilder(config: Config) extends ConfigBuilder {
 
-  override val namespace: String = "scalaws.dbs"
+  override def namespace: String = "scalaws.dbs"
 
   lazy val host: String = config.getString(getConfigField(namespace, "host"))
   lazy val port: Option[Int] = Option(config.getInt(getConfigField(namespace, "port")))
