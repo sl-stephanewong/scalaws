@@ -1,5 +1,6 @@
-package com.scalaws.configs
+package com.scalaws.configs.s3
 
+import com.scalaws.configs.ConfigNamespace
 import com.typesafe.config.Config
 
 import scala.util.Try
