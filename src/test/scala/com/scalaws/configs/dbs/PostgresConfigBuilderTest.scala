@@ -1,12 +1,10 @@
 package com.scalaws.configs.dbs
 
-import com.typesafe.config.ConfigFactory
+import com.scalaws.configs.ConfigTest
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.flatspec.AnyFlatSpec
 
-class PostgresConfigBuilderTest extends AnyFlatSpec with Matchers {
-
-  val config = ConfigFactory.load()
+class PostgresConfigBuilderTest extends AnyFlatSpec with Matchers with ConfigTest {
 
   it should "get the postgres config" in {
     val pgcb = PostgresConfigBuilder(config)
