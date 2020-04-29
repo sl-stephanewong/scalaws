@@ -15,10 +15,10 @@ case class MongoClientBuilder(config: Config) extends DatabaseClientBuilder(conf
     } yield {
       s"$username:$password@"
     }
-    s"mongodb://${userPwd.getOrElse("")}${mongoConfigBuilder.host}:${mongoConfigBuilder.port}"
+    s"mongodb://${userPwd.getOrElse("")}${mongoConfigBuilder.host}:${mongoConfigBuilder.port.getOrElse(27017)}"
   }
 
-  val mongoClient = MongoClient(url)
-  val database = mongoClient.getDatabase(mongoConfigBuilder.db)
+  lazy val mongoClient = MongoClient(url)
+  lazy val database = mongoClient.getDatabase(mongoConfigBuilder.db)
 
 }

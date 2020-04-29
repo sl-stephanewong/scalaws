@@ -14,8 +14,8 @@ class MongoConfigBuilderTest extends AnyFlatSpec with Matchers with ConfigTest {
     mongocb.host should be("localhost")
     mongocb.port should be(Some(27017))
     mongocb.db should be("mongo")
-    mongocb.user should be(None)
-    mongocb.pwd should be(None)
+    mongocb.user should be(Some("test"))
+    mongocb.pwd should be(Some("pass"))
   }
 
 }
