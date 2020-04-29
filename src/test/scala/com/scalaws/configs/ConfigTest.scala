@@ -1,7 +1,7 @@
 package com.scalaws.configs
 
-import com.typesafe.config.ConfigFactory
+import com.typesafe.config.{Config, ConfigFactory}
 
 trait ConfigTest {
-  val config = ConfigFactory.load("test/application.conf")
+  val config: Config = ConfigFactory.load("test/application.conf")
 }
