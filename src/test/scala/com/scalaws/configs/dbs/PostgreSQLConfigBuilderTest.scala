@@ -4,10 +4,10 @@ import com.scalaws.configs.ConfigTest
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.flatspec.AnyFlatSpec
 
-class PostgresConfigBuilderTest extends AnyFlatSpec with Matchers with ConfigTest {
+class PostgreSQLConfigBuilderTest extends AnyFlatSpec with Matchers with ConfigTest {
 
   it should "get the postgres config" in {
-    val pgcb = PostgresConfigBuilder(config)
+    val pgcb = PostgreSQLConfigBuilder(config)
     pgcb.namespace should be("scalaws.dbs.postgres")
     pgcb.host should be("postgreshost")
     pgcb.port should be(Some(5432))

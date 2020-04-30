@@ -13,7 +13,7 @@ case class MongoClientBuilder(config: Config) extends DatabaseClientBuilder(conf
       username <- mongoConfigBuilder.user
       password <- mongoConfigBuilder.pwd
     } yield {
-      s"$username:$password@"
+      if(username.isEmpty) "" else s"$username:$password@"
     }
     s"mongodb://${userPwd.getOrElse("")}${mongoConfigBuilder.host}:${mongoConfigBuilder.port.getOrElse(27017)}"
   }
