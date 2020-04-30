@@ -18,6 +18,9 @@ libraryDependencies ++= Seq(
   "org.slf4j" % "slf4j-api" % "1.7.30",
   "org.slf4j" % "slf4j-simple" % "1.7.30",
   "org.mongodb.scala" %% "mongo-scala-driver" % "4.0.2",
+  "dev.zio" %% "zio" % "1.0.0-RC18-2",
+  "org.postgresql" % "postgresql" % "42.2.8",
+  "io.getquill" %% "quill-jdbc" % "3.5.1",
   "org.scalactic" %% "scalactic" % scalaTestVersion,
   "org.scalatest" %% "scalatest" % scalaTestVersion % "test"
 )
