@@ -1,21 +1,28 @@
 package com.scalaws.models.dbs.connexion
 
 import com.microsoft.sqlserver.jdbc.SQLServerDataSource
-import com.mysql.cj.jdbc.MysqlDataSource
-import com.scalaws.configs.dbs.PostgreSQLConfigBuilder
+import com.scalaws.configs.dbs.SqlServerConfigBuilder
 import com.typesafe.config.Config
 import com.zaxxer.hikari.{HikariConfig, HikariDataSource}
-import io.getquill.{MySQLDialect, MysqlJdbcContext, SQLServerDialect, SnakeCase, SqlServerJdbcContext}
+import io.getquill.{SQLServerDialect, SnakeCase, SqlServerJdbcContext}
 
 case class SQLServerClientBuilder(config: Config)
   extends DatabaseClientBuilder[SQLServerDialect, SnakeCase, SqlServerJdbcContext[SnakeCase]](config) {
 
-  protected val myqbuilder = PostgreSQLConfigBuilder(config)
+  override protected val sqlBuilder = SqlServerConfigBuilder(config)
+  import sqlBuilder._
 
-  override val url: String =
-    s"jdbc:postgresql://${myqbuilder.host}:${myqbuilder.port.getOrElse(5432)}/${myqbuilder.db}"
+  override val url: String = {
+    val userPwd = for {
+      u <- user
+      p <- pwd
+    } yield {
+      if (u.isEmpty) "" else s";user=$u;password=$p"
+    }
+    s"jdbc:sqlserver://$host:${port.getOrElse(1433)};databaseName=$db${userPwd.getOrElse("")}"
+  }
 
-  override def getConnection = {
+  override def getConnection: SqlServerJdbcContext[SnakeCase] = {
     val sqlDataSource = new SQLServerDataSource()
     val cfg = new HikariConfig()
     sqlDataSource.setURL(url)
