@@ -4,7 +4,7 @@ import com.scalaws.configs.dbs.MongoConfigBuilder
 import com.typesafe.config.Config
 import org.mongodb.scala.MongoClient
 
-case class MongoClientBuilder(config: Config) extends DatabaseClientBuilder(config) {
+case class MongoClientBuilder(config: Config) extends DatabaseUrlBuilder {
 
   protected val mongoConfigBuilder = MongoConfigBuilder(config)
 
