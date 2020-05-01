@@ -4,10 +4,10 @@ package com.scalaws.models.dbs.connexion
 import com.scalaws.configs.dbs.PostgreSQLConfigBuilder
 import com.typesafe.config.Config
 import com.zaxxer.hikari._
-import io.getquill.{PostgresDialect, PostgresJdbcContext, SnakeCase}
+import io.getquill.{NamingStrategy, PostgresDialect, PostgresJdbcContext}
 
-case class PostgreSQLClientBuilder(config: Config)
-  extends DatabaseClientBuilder[PostgresDialect, SnakeCase, PostgresJdbcContext[SnakeCase]](config) {
+case class PostgreSQLClientBuilder[N <: NamingStrategy](config: Config, naming: N)
+  extends DatabaseClientBuilder[PostgresDialect, N, PostgresJdbcContext[N]](config) {
 
   override protected val sqlBuilder = PostgreSQLConfigBuilder(config)
   import sqlBuilder._
@@ -20,12 +20,13 @@ case class PostgreSQLClientBuilder(config: Config)
     s"jdbc:postgresql://${host}:${port.getOrElse(5432)}/${db}${userPwd.getOrElse("")}"
   }
 
-  override def getConnection: PostgresJdbcContext[SnakeCase] = {
+
+  override def getConnection: PostgresJdbcContext[N] = {
     val pgDataSource = new org.postgresql.ds.PGSimpleDataSource()
     val cfg = new HikariConfig()
     pgDataSource.setUrl(url)
     cfg.setDataSource(pgDataSource)
-    new PostgresJdbcContext(SnakeCase,new HikariDataSource(cfg))
+    new PostgresJdbcContext(naming,new HikariDataSource(cfg))
   }
 
 }

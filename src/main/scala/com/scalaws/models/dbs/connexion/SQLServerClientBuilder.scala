@@ -4,10 +4,10 @@ import com.microsoft.sqlserver.jdbc.SQLServerDataSource
 import com.scalaws.configs.dbs.SqlServerConfigBuilder
 import com.typesafe.config.Config
 import com.zaxxer.hikari.{HikariConfig, HikariDataSource}
-import io.getquill.{SQLServerDialect, SnakeCase, SqlServerJdbcContext}
+import io.getquill.{NamingStrategy, SQLServerDialect, SnakeCase, SqlServerJdbcContext}
 
-case class SQLServerClientBuilder(config: Config)
-  extends DatabaseClientBuilder[SQLServerDialect, SnakeCase, SqlServerJdbcContext[SnakeCase]](config) {
+case class SQLServerClientBuilder[N <: NamingStrategy](config: Config, naming: N)
+  extends DatabaseClientBuilder[SQLServerDialect, N, SqlServerJdbcContext[N]](config) {
 
   override protected val sqlBuilder = SqlServerConfigBuilder(config)
   import sqlBuilder._
@@ -22,12 +22,12 @@ case class SQLServerClientBuilder(config: Config)
     s"jdbc:sqlserver://$host:${port.getOrElse(1433)};databaseName=$db${userPwd.getOrElse("")}"
   }
 
-  override def getConnection: SqlServerJdbcContext[SnakeCase] = {
+  override def getConnection: SqlServerJdbcContext[N] = {
     val sqlDataSource = new SQLServerDataSource()
     val cfg = new HikariConfig()
     sqlDataSource.setURL(url)
     cfg.setDataSource(sqlDataSource)
-    new SqlServerJdbcContext(SnakeCase,new HikariDataSource(cfg))
+    new SqlServerJdbcContext(naming,new HikariDataSource(cfg))
   }
 
 }

@@ -4,10 +4,10 @@ import com.mysql.cj.jdbc.MysqlDataSource
 import com.scalaws.configs.dbs.MySQLConfigBuilder
 import com.typesafe.config.Config
 import com.zaxxer.hikari.{HikariConfig, HikariDataSource}
-import io.getquill.{MySQLDialect, MysqlJdbcContext, SnakeCase}
+import io.getquill.{MySQLDialect, MysqlJdbcContext, NamingStrategy}
 
-case class MySQLClientBuilder(config: Config)
-  extends DatabaseClientBuilder[MySQLDialect, SnakeCase, MysqlJdbcContext[SnakeCase]](config) {
+case class MySQLClientBuilder[N <: NamingStrategy](config: Config, naming: N)
+  extends DatabaseClientBuilder[MySQLDialect, N, MysqlJdbcContext[N]](config) {
 
   override protected val sqlBuilder = MySQLConfigBuilder(config)
   import sqlBuilder._
@@ -20,12 +20,12 @@ case class MySQLClientBuilder(config: Config)
     s"jdbc:mysql://address=(host=$host)(port=${port.getOrElse(3306)})${userPwd.getOrElse("")}/$db"
   }
 
-  override def getConnection: MysqlJdbcContext[SnakeCase] = {
+  override def getConnection: MysqlJdbcContext[N] = {
     val sqlDataSource = new MysqlDataSource()
     val cfg = new HikariConfig()
     sqlDataSource.setUrl(url)
     cfg.setDataSource(sqlDataSource)
-    new MysqlJdbcContext(SnakeCase, new HikariDataSource(cfg))
+    new MysqlJdbcContext(naming, new HikariDataSource(cfg))
   }
 
 }
