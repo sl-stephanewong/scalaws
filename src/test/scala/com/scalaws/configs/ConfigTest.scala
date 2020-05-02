@@ -4,4 +4,5 @@ import com.typesafe.config.{Config, ConfigFactory}
 
 trait ConfigTest {
   val config: Config = ConfigFactory.load("test/application.conf")
+  val inputsqlFilePath = "test/input.sql"
 }

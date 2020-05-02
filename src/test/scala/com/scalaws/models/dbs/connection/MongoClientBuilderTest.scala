@@ -1,7 +1,6 @@
-package com.scalaws.models.dbs
+package com.scalaws.models.dbs.connection
 
 import com.scalaws.configs.ConfigTest
-import com.scalaws.models.dbs.connexion.MongoClientBuilder
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 
