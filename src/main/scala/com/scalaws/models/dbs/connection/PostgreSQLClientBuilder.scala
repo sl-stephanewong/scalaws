@@ -1,4 +1,4 @@
-package com.scalaws.models.dbs.connexion
+package com.scalaws.models.dbs.connection
 
 
 import com.scalaws.configs.dbs.PostgreSQLConfigBuilder

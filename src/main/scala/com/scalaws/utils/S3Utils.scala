@@ -6,10 +6,10 @@ import com.amazonaws.auth.profile.ProfileCredentialsProvider
 import com.amazonaws.services.s3.AmazonS3ClientBuilder
 import com.amazonaws.services.s3.transfer.TransferManagerBuilder
 import com.scalaws.configs.s3.S3Config
-import org.slf4j.LoggerFactory
+import com.typesafe.scalalogging.LazyLogging
 
 
-case class S3Utils(s3Config: S3Config) extends Logger  {
+case class S3Utils(s3Config: S3Config) extends LazyLogging  {
 
   private val credentials = new ProfileCredentialsProvider(s3Config.profile)
   protected val s3Client = AmazonS3ClientBuilder.standard()

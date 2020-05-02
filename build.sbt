@@ -24,11 +24,13 @@ libraryDependencies ++= Seq(
   "org.postgresql" % "postgresql" % "42.2.8",
   "mysql" % "mysql-connector-java" % "8.0.17",
   "com.microsoft.sqlserver" % "mssql-jdbc" % "7.4.1.jre8",
+  "com.h2database" % "h2" % "1.4.199",
   "io.getquill" %% "quill-jdbc" % "3.5.1",
 
   // test
   "org.scalactic" %% "scalactic" % scalaTestVersion,
   "org.scalamock" %% "scalamock" % "4.4.0" % Test,
   "org.scalatest" %% "scalatest" % scalaTestVersion % "test",
+  "com.h2database" % "h2" % "1.4.199" % Test
 
 )
