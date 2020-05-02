@@ -28,6 +28,7 @@ libraryDependencies ++= Seq(
 
   // test
   "org.scalactic" %% "scalactic" % scalaTestVersion,
+  "org.scalamock" %% "scalamock" % "4.4.0" % Test,
   "org.scalatest" %% "scalatest" % scalaTestVersion % "test",
 
 )
