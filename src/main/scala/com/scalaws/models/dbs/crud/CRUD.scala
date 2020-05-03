@@ -24,7 +24,7 @@ trait CRUD[T <: Record] {
    * @param records
    * @return a 'primitive' value or nothing after insert data in database
    */
-  def insert(records: Seq[T]): Future[_ <: AnyVal]
+  def insert(records: Seq[T]): Future[_ <: Any]
 
   /**
    *
@@ -38,6 +38,13 @@ trait CRUD[T <: Record] {
    * @param records
    * @return a 'primitive' value or nothing after update data in database
    */
-  def update(records: Seq[T]): Future[_ <: AnyVal]
+  def update(records: Seq[T]): Future[_ <: Any]
+
+  /**
+   *
+   * @param record
+   * @return a 'primitive' value after deleted user
+   */
+  def delete(record: T): Future[_ <: AnyVal]
 
 }
