@@ -4,12 +4,14 @@ import com.scalaws.configs.ConfigTest
 import com.scalaws.models.dbs.H2DatabaseCreatorTest
 import com.scalaws.models.dbs.crud.UserRDSCRUD
 import com.scalaws.models.{RDSType, Users}
-import io.getquill.{CamelCase, SnakeCase}
+import io.getquill.SnakeCase
 import org.scalatest.BeforeAndAfterAll
 import org.scalatest.flatspec.AsyncFlatSpec
 import org.scalatest.matchers.should.Matchers
 
-
+/**
+ * Careful the order tests are important
+ */
 class H2ClientBuilderTest extends AsyncFlatSpec with BeforeAndAfterAll with Matchers with ConfigTest {
 
   override protected def beforeAll(): Unit = {
@@ -30,6 +32,8 @@ class H2ClientBuilderTest extends AsyncFlatSpec with BeforeAndAfterAll with Matc
   )
 
   val newUser = Users(3,"insert","insert")
+  val updateUser = Users(3, "update", "update")
+
 
   it should "get all users data" in {
     val users = userRDSCRUD.find()
@@ -43,9 +47,31 @@ class H2ClientBuilderTest extends AsyncFlatSpec with BeforeAndAfterAll with Matc
     }
   }
 
-  it should "get all users data with new user" in {
+  it should "get all users after insert" in {
     val users = userRDSCRUD.find()
     users.map { us => assert(us === (expectedUsers.::(newUser).sortBy(_.id)))}
+  }
+
+  it should "update one user" in {
+    val update = userRDSCRUD.update(updateUser)
+    update.map { u =>
+      assert(u == 1)
+    }
+  }
+
+  it should "get all users with updated data" in {
+    val users = userRDSCRUD.find()
+    users.map { us => assert(us === (expectedUsers.::(updateUser).sortBy(_.id)))}
+  }
+
+  it should "delete one user" in {
+    val delete = userRDSCRUD.delete(newUser)
+    delete.map { d =>assert(d == 1) }
+  }
+
+  it should "get users after deleted data" in {
+    val users = userRDSCRUD.find()
+    users.map { us => assert(us === expectedUsers)}
   }
 
 }

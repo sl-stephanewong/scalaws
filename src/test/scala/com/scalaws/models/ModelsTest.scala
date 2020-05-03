@@ -1,4 +1,4 @@
 package com.scalaws.models
 
-case class Users(id: Int, first_name: String, last_name: String) extends Record
+case class Users(id: Int, firstName: String, lastName: String) extends Record
 
