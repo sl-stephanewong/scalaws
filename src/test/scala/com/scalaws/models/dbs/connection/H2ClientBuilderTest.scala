@@ -66,7 +66,7 @@ class H2ClientBuilderTest extends AsyncFlatSpec with BeforeAndAfterAll with Matc
 
   it should "delete one user" in {
     val delete = userRDSCRUD.delete(newUser)
-    delete.map { d =>assert(d == 1) }
+    delete.map { d => assert(d == 1) }
   }
 
   it should "get users after deleted data" in {

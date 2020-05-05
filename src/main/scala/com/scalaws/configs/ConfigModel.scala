@@ -17,15 +17,15 @@ abstract class DatabaseConfigBuilder(config: Config) extends ConfigBuilder {
   override def namespace: String = "scalaws.dbs"
 
   lazy val host: String = config.getString(getConfigField(namespace, "host"))
-  lazy val port: Option[Int] = Option(config.getInt(getConfigField(namespace, "port")))
+  lazy val port: Option[Int] = Try(config.getInt(getConfigField(namespace, "port"))).toOption
   lazy val db: String = config.getString(getConfigField(namespace, "db"))
   lazy val user: Option[String] = Try(config.getString(getConfigField(namespace, "username"))).toOption
   lazy val pwd: Option[String] = Try(config.getString(getConfigField(namespace, "password"))).toOption
 }
 
 abstract class ApiConfigBuilder(config: Config) extends ConfigBuilder {
-  override val namespace: String = "scalaws.apis"
+  override def namespace: String = "scalaws.apis"
   lazy val url: String = config.getString(getConfigField(namespace, "host"))
-  lazy val user: Option[String] = Option(config.getString(getConfigField(namespace, "username")))
-  lazy val token: Option[String] = Option(config.getString(getConfigField(namespace, "token")))
+  lazy val user: Option[String] = Try(config.getString(getConfigField(namespace, "username"))).toOption
+  lazy val token: Option[String] = Try(config.getString(getConfigField(namespace, "token"))).toOption
 }
