@@ -9,7 +9,7 @@ import com.typesafe.config.Config
 abstract class ActorApi[T <: Record](config: Config, apiName: String) extends Actor with ActorLogging {
 
   final implicit val materializer: ActorMaterializer = ActorMaterializer(ActorMaterializerSettings(context.system))
-  val apiConfig = CommonApiConfigBuilder(config, apiName)
+  lazy val apiConfig: CommonApiConfigBuilder = new CommonApiConfigBuilder(config, apiName)
   val http = Http(context.system)
 
 }

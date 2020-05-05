@@ -25,7 +25,7 @@ abstract class DatabaseConfigBuilder(config: Config) extends ConfigBuilder {
 
 abstract class ApiConfigBuilder(config: Config) extends ConfigBuilder {
   override def namespace: String = "scalaws.apis"
-  lazy val url: String = config.getString(getConfigField(namespace, "host"))
+  lazy val url: String = config.getString(getConfigField(namespace, "url"))
   lazy val user: Option[String] = Try(config.getString(getConfigField(namespace, "username"))).toOption
   lazy val token: Option[String] = Try(config.getString(getConfigField(namespace, "token"))).toOption
 }
