@@ -9,12 +9,8 @@ import io.getquill.NamingStrategy
 import scala.concurrent.ExecutionContext.Implicits._
 import scala.concurrent.Future
 
-case class UserRDSCRUD[N <: NamingStrategy](config: Config, rdsType: RDSType, namingStrategy: N) extends CRUD[Users] {
-
-  val client = DatabaseClientBuilder.apply(config,rdsType,namingStrategy)
-  val ctx = client.getConnection
-  import ctx._
-
+case class UserRDSCRUD[N <: NamingStrategy](config: Config, rdsType: RDSType, namingStrategy: N)
+  extends RDSCRUD[Users,N](config, rdsType, namingStrategy) {
 
   /**
    *
@@ -22,8 +18,14 @@ case class UserRDSCRUD[N <: NamingStrategy](config: Config, rdsType: RDSType, na
    */
   override def find(): Future[List[Users]] = {
     Future {
-      run {
-        query[Users]
+      val ctx = client.getConnection
+      import ctx._
+      try {
+        run {
+          query[Users]
+        }
+      } finally {
+        ctx.close()
       }
     }
   }
@@ -35,8 +37,14 @@ case class UserRDSCRUD[N <: NamingStrategy](config: Config, rdsType: RDSType, na
    */
   override def insert(record: Users): Future[Long] = {
     Future {
-      run {
-        query[Users].insert(lift(record))
+      val ctx = client.getConnection
+      import ctx._
+      try {
+        run {
+          query[Users].insert(lift(record))
+        }
+      } finally {
+        ctx.close()
       }
     }
   }
@@ -48,10 +56,16 @@ case class UserRDSCRUD[N <: NamingStrategy](config: Config, rdsType: RDSType, na
    */
   override def insert(records: Seq[Users]): Future[_ <: Any] = {
     Future {
-      run {
-        quote {
-          liftQuery(records).foreach(u => query[Users].insert(u))
+      val ctx = client.getConnection
+      import ctx._
+      try {
+        run {
+          quote {
+            liftQuery(records).foreach(u => query[Users].insert(u))
+          }
         }
+      } finally {
+        ctx.close()
       }
     }
   }
@@ -63,10 +77,16 @@ case class UserRDSCRUD[N <: NamingStrategy](config: Config, rdsType: RDSType, na
    */
   override def update(record: Users): Future[Long] = {
     Future {
-      run {
-        quote {
-          query[Users].filter(_.id == lift(record.id)).update(lift(record))
+      val ctx = client.getConnection
+      import ctx._
+      try {
+        run {
+          quote {
+            query[Users].filter(_.id == lift(record.id)).update(lift(record))
+          }
         }
+      } finally {
+        ctx.close
       }
     }
   }
@@ -95,10 +115,16 @@ case class UserRDSCRUD[N <: NamingStrategy](config: Config, rdsType: RDSType, na
    */
   override def delete(record: Users): Future[Long] = {
     Future {
-      run {
-        quote {
-          query[Users].filter(_.id == lift(record.id)).delete
+      val ctx = client.getConnection
+      import ctx._
+      try {
+        run {
+          quote {
+            query[Users].filter(_.id == lift(record.id)).delete
+          }
         }
+      } finally {
+        ctx.close()
       }
     }
   }

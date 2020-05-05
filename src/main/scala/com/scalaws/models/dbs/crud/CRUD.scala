@@ -1,8 +1,16 @@
 package com.scalaws.models.dbs.crud
 
+import com.scalaws.models.RDSType.RDSType
 import com.scalaws.models.Record
+import com.scalaws.models.dbs.connection.DatabaseClientBuilder
+import com.typesafe.config.Config
+import io.getquill.NamingStrategy
 
 import scala.concurrent.Future
+
+abstract class RDSCRUD[T <: Record, N <: NamingStrategy](config: Config, rdsType: RDSType, namingStrategy: N) extends CRUD[T] {
+  lazy val client = DatabaseClientBuilder.apply(config, rdsType, namingStrategy)
+}
 
 trait CRUD[T <: Record] {
 
