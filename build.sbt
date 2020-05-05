@@ -20,6 +20,11 @@ libraryDependencies ++= Seq(
   "org.mongodb.scala" %% "mongo-scala-driver" % "4.0.2",
   "dev.zio" %% "zio" % "1.0.0-RC18-2",
 
+
+  // Akka libraries for apis
+  "com.typesafe.akka" %% "akka-http"   % "10.1.11",
+  "com.typesafe.akka" %% "akka-stream" % "2.5.26",
+
   // jdbc connector with quill
   "org.postgresql" % "postgresql" % "42.2.8",
   "mysql" % "mysql-connector-java" % "8.0.17",
