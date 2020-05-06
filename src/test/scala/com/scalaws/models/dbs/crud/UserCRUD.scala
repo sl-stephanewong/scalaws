@@ -2,7 +2,6 @@ package com.scalaws.models.dbs.crud
 
 import com.scalaws.models.RDSType.RDSType
 import com.scalaws.models.Users
-import com.scalaws.models.dbs.connection.DatabaseClientBuilder
 import com.typesafe.config.Config
 import io.getquill.NamingStrategy
 
