@@ -3,7 +3,7 @@ package com.scalaws.tasks
 import com.scalaws.models.Record
 import com.scalaws.models.dbs.crud.CRUD
 
-object TransfertTask {
+object TransferTask {
 
   def transfertAsInsert[T <: Record, U <: CRUD[T]](records: List[T], dstSource: U) = {
     dstSource.insert(records)
