@@ -6,11 +6,13 @@ import com.amazonaws.auth.profile.ProfileCredentialsProvider
 import com.amazonaws.services.s3.AmazonS3ClientBuilder
 import com.amazonaws.services.s3.transfer.TransferManagerBuilder
 import com.scalaws.configs.s3.S3Config
+import com.typesafe.config.Config
 import com.typesafe.scalalogging.LazyLogging
 
 
-case class S3Utils(s3Config: S3Config) extends LazyLogging  {
+case class S3Utils(config: Config) extends LazyLogging  {
 
+  protected val s3Config = S3Config(config)
   private val credentials = new ProfileCredentialsProvider(s3Config.profile)
   protected val s3Client = AmazonS3ClientBuilder.standard()
     .withRegion(s3Config.regions)
